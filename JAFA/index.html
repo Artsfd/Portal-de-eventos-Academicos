@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Eventos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 300px;
+            height: auto;
+        }
+        .logo h1 {
+            font-size: 24px;
+            color: #1E3A8A;
+            margin-top: 10px;
+        }
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #1E3A8A;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background: #DC2626;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-container button:hover {
+            background: #B91C1C;
+        }
+        .forgot-password {
+            margin-top: 10px;
+            color: #1E3A8A;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .main-container {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .main-container h2 {
+            color: #1E3A8A;
+        }
+        .events-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+            margin: 20px auto;
+        }
+        .events-container img {
+            cursor: pointer;
+        }
+        .mark-events-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .mark-events-container button {
+            padding: 10px;
+            background: #1E3A8A;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        function validarLogin() {
+            let matricula = document.getElementById("matricula").value;
+            let senha = document.getElementById("senha").value;
+            
+            if (matricula === "" || senha === "") {
+                alert("Por favor, preencha todos os campos.");
+                return false;
+            }
+            if (!/^[0-9]+$/.test(matricula)) {
+                alert("A matrícula deve conter apenas números.");
+                return false;
+            }
+            
+            if (matricula === "6924106422" && senha === "20012005") {
+                document.querySelector(".login-container").style.display = "none";
+                document.querySelector(".main-container").style.display = "block";
+                return true;
+            } else if (matricula === "1234567890" && senha === "palestrante") {
+                document.querySelector(".login-container").style.display = "none";
+                document.querySelector(".main-container").style.display = "block";
+                document.querySelector(".mark-events-container").style.display = "block";
+                return true;
+            } else {
+                alert("Matrícula ou senha incorretas.");
+                return false;
+            }
+        }
+
+        function recuperarSenha() {
+            alert("Para recuperar sua senha, entre em contato com a secretaria ou envie um email para: souzarthur.ferreira@gmail.com informando sua matrícula.");
+        }
+
+        function redirecionarParaEventos() {
+            window.location.href = "eventos.html";
+        }
+    </script>
+</head>
+<body>
+    <div class="logo">
+        <img src="portalsale.png" alt="Logo Salesiano">
+        <h1>Portal Sale</h1>
+    </div>
+
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="matricula" placeholder="Número de Matrícula" required>
+        <input type="password" id="senha" placeholder="Senha" required>
+        <button onclick="return validarLogin()">Entrar</button>
+        <div class="forgot-password" onclick="recuperarSenha()">Esqueci minha senha</div>
+    </div>
+
+    <div class="main-container">
+        <h2>Bem-vindo ao Portal de Eventos</h2>
+        <div class="events-container">
+            <h3>Eventos Disponíveis</h3>
+            <p>Esta tabela contém registros de informações de eventos.</p>
+            <img src="calendario.png" alt="Ícone de calendário" onclick="redirecionarParaEventos()">
+        </div>
+        
+   

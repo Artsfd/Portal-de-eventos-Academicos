@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .header {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+        }
+        .container {
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .event-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .event-list h2 {
+            color: #1E3A8A;
+        }
+        .event-list p {
+            color: #333;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 10px;
+            background: #DC2626;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background: #B91C1C;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Eventos Disponíveis</div>
+    <div class="container">
+        <div class="event-list">
+            <h2>Lista de Eventos</h2>
+            <p>Aqui estão os eventos disponíveis para você participar.</p>
+        </div>
+        <button class="back-button" onclick="window.location.href='index.html'">Voltar</button>
+    </div>
+    <script>
+        // Simulando um usuário logado como administrador (pode ser adaptado para um sistema real)
+        var usuarioEhAdministrador = true; // Altere para false para testar o comportamento
+
+        window.onload = function() {
+            if (usuarioEhAdministrador) {
+                var botaoCriarPalestra = document.createElement("button");
+                botaoCriarPalestra.innerText = "Criar Palestra";
+                botaoCriarPalestra.style.padding = "10px";
+                botaoCriarPalestra.style.background = "#1E3A8A";
+                botaoCriarPalestra.style.color = "white";
+                botaoCriarPalestra.style.border = "none";
+                botaoCriarPalestra.style.borderRadius = "5px";
+                botaoCriarPalestra.style.cursor = "pointer";
+                botaoCriarPalestra.style.fontSize = "16px";
+                botaoCriarPalestra.style.marginTop = "20px";
+                botaoCriarPalestra.onclick = function() {
+                    window.location.href = 'criar_palestra.html';
+                };
+                document.querySelector(".container").appendChild(botaoCriarPalestra);
+            }
+        };
+    </script>
+</body>
+</html>
+<script>
+    // Simulando a obtenção do tipo de usuário (pode vir de uma variável global, localStorage ou sessão)
+    var tipoUsuario = localStorage.getItem("tipoUsuario"); // Recuperando do armazenamento local
+
+    window.onload = function() {
+        if (tipoUsuario === "administrador") { // Verifica se o usuário é administrador
+            var botaoCriarPalestra = document.createElement("button");
+            botaoCriarPalestra.innerText = "Criar Palestra";
+            botaoCriarPalestra.style.padding = "10px";
+            botaoCriarPalestra.style.background = "#1E3A8A";
+            botaoCriarPalestra.style.color = "white";
+            botaoCriarPalestra.style.border = "none";
+            botaoCriarPalestra.style.borderRadius = "5px";
+            botaoCriarPalestra.style.cursor = "pointer";
+            botaoCriarPalestra.style.fontSize = "16px";
+            botaoCriarPalestra.style.marginTop = "20px";
+            botaoCriarPalestra.onclick = function() {
+                window.location.href = 'criar_palestra.html';
+            };
+            document.querySelector(".container").appendChild(botaoCriarPalestra);
+        }
+    };
+</script>
+
+<script>
+    function validarLogin() {
+        let matricula = document.getElementById("matricula").value;
+        let senha = document.getElementById("senha").value;
+
+        if (matricula === "1234567890" && senha === "palestrante") {
+            localStorage.setItem("tipoUsuario", "palestrante"); // Salva o tipo de usuário
+            window.location.href = "eventos.html"; 
+        } else if (matricula === "admin" && senha === "admin123") {
+            localStorage.setItem("tipoUsuario", "administrador"); // Salva o tipo de usuário
+            window.location.href = "eventos.html";
+        } else {
+            alert("Matrícula ou senha incorretas.");
+        }
+    }
+</script>
+
