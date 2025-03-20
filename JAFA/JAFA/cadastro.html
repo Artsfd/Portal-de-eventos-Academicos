@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Eventos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+        h2 {
+            color: #1E3A8A;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #DC2626;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #B91C1C;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastro de Eventos</h2>
+        <form id="evento-form">
+            <input type="text" id="nome" placeholder="Nome do Evento" required>
+            <input type="text" id="palestrante" placeholder="Nome do Palestrante" required>
+            <textarea id="descricao" placeholder="Descrição do Evento" required></textarea>
+            <input type="datetime-local" id="dataHora" required>
+            <input type="text" id="local" placeholder="Local" required>
+            <button type="submit">Cadastrar Evento</button>
+        </form>
+    </div>
+</body>
+<script>
+    document.querySelector("#evento-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita o recarregamento da página
+
+        const evento = { // Puxa todas as informações dos campos
+            nome: document.querySelector("#nome").value,
+            palestrante: document.querySelector("#palestrante").value,
+            descricao: document.querySelector("#descricao").value,
+            dataHora: document.querySelector("#dataHora").value,
+            local: document.querySelector("#local").value
+        };
+
+        fetch("http://localhost:8080/eventos", { // Estabelece a conexão com a porta 8080
+            method: "POST",
+            headers: { 
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(evento)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro ao cadastrar evento.");
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert("Evento cadastrado com sucesso!");
+            document.querySelector("#evento-form").reset(); // Limpa os campos após o envio
+        })
+        .catch(error => {
+            console.error("Erro ao cadastrar evento:", error);
+            alert("Falha ao cadastrar evento. Verifique os dados e tente novamente.");
+        });
+    });
+</script>
+</html>
