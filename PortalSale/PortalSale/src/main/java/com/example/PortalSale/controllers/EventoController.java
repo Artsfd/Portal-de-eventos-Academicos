@@ -40,4 +40,9 @@ public class EventoController {
         eventoService.excluirEvento(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/buscar")
+    public List<Evento> buscarEventos(@RequestParam String nome){
+        return eventoService.buscarPorNome(nome);
+    }
 }

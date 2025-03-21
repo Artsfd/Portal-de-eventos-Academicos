@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de eventos</title>
+</head>
+
+<body>
+    <input type="text" id="pesquisa" placeholder="Pesquisar evento..." oninput="buscarEventos()">
+    <div class="lista-container">
+        <h2>Eventos Cadastrados</h2>
+        <div id="lista-eventos"></div>
+    </div>
+</body>
+
+<script>
+    function carregarEventos() {
+        fetch("http://localhost:8080/eventos")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro ao carregar os eventos: ${response.status}");
+                }
+                return response.json();
+            })
+            .then(eventos => {
+                const listaEventos = document.querySelector("#lista-eventos");
+                listaEventos.innerHTML = ""; //Limpa a lista antes de atualizar
+
+                eventos.forEach(evento => {
+                    const eventoElemento = document.createElement("div");
+                    eventoElemento.classList.add("evento");
+                    eventoElemento.innerHTML = `<h3>${evento.nome}</h3>
+                    <p><strong>Palestrante:</strong> ${evento.palestrante}</p>
+                    <p><strong>Descrição:</strong> ${evento.descricao}</p>
+                    <p><strong>Data:</strong> ${new Date(evento.dataHora).toLocaleString("pt-BR")}</p>
+                    <p><strong>Local:</strong> ${evento.local}</p>
+                    <p><strong>Capacidade:</strong> ${evento.capacidade}</p>`;
+                    listaEventos.appendChild(eventoElemento);
+                });
+            })
+            .catch(error => {
+                console.error("Erro ao carregar eventos", error);
+                alert("Não foi possível carregar os eventos");
+            })
+    }
+
+    function buscarEventos() {
+        const termo = document.querySelector("#pesquisa").value;
+
+        fetch(`http://localhost:8080/eventos/buscar?nome=${encodeURIComponent(termo)}`)
+            .then(response => response.json())
+            .then(eventos => {
+                const listaEventos = document.querySelector("#lista-eventos");
+                listaEventos.innerHTML = "";
+
+                if(eventos.length === 0) {
+                    listaEventos.innerHTML = `<p style="color: red;">Nenhum evento encontrado para: "${termo}`
+                }
+
+                eventos.forEach(evento => {
+                    const eventoElemento = document.createElement("div");
+                    eventoElemento.classList.add("evento");
+                    eventoElemento.innerHTML = `<h3>${evento.nome}</h3>
+                    <p><strong>Palestrante:</strong> ${evento.palestrante}</p>
+                    <p><strong>Descrição:</strong> ${evento.descricao}</p>
+                    <p><strong>Data:</strong> ${new Date(evento.dataHora).toLocaleString("pt-BR")}</p>
+                    <p><strong>Local:</strong> ${evento.local}</p>
+                    <p><strong>Capacidade:</strong> ${evento.capacidade}</p>`;
+                    listaEventos.appendChild(eventoElemento);
+                });
+            })
+            .catch(error => alert("Não foi possível buscar o evento", error));
+    }
+
+    document.addEventListener("DOMContentLoaded", carregarEventos);
+</script>
+
+</html>

@@ -29,4 +29,8 @@ public class EventoService {
     public void excluirEvento(long id) {
         eventoRepository.deleteById(id); //Deleta o ID
     }
+
+    public List<Evento> buscarPorNome(String nome) {
+        return eventoRepository.findByNomeContainingIgnoreCase(nome);
+    }
 }
